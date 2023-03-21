@@ -13,50 +13,46 @@ for (let i = 0; i < imagesArray.length; i++) {
     itemsContainer.innerHTML += sliderItem;
 }
 
-// let counter = 10;
-// const interval = setInterval(function() {
-//     if (counter > 0) {
-//         console.log(counter);
-//     }
-//     else {
-//         console.log("YO!");
-//         alert("YO!");
-//         clearInterval(interval);
-//     }
-//     counter--;
-
-// }, 1000);
-
+//Logica scorrimento immagini automatico a tempo
 const itemsArray = document.getElementsByClassName("item");
 let activeItemIndex = 0;
 
 itemsArray[activeItemIndex].classList.add("active");
-let counter = 3;
-const nextPhotoTimer = setInterval(function() {
-    for (let i = 3; i > 0; i--) {
-        counter--;
-        
-        if (counter === 0) {
-            itemsArray[activeItemIndex].classList.add("hidden");
-            activeItemIndex++;
-            itemsArray[activeItemIndex].classList.add("active");
-            clearInterval(nextPhotoTimer);
-            counter = 3;
-        }
-    }
-}, 1000);
+console.log(activeItemIndex + 1);           // Inizio numerazione foto
 
+const nextPhotoTimer = setInterval(function () {
+    console.log(activeItemIndex + 2);       // Aggiornamento numerazione foto
+
+    itemsArray[activeItemIndex].classList.remove("active");
+    activeItemIndex++;
+
+    document.querySelector(".prev").classList.remove("hidden")
+    itemsArray[activeItemIndex].classList.add("active");
+
+    if (activeItemIndex === itemsArray.length - 1) {
+        document.querySelector(".next").classList.add("hidden")
+        clearInterval(nextPhotoTimer);
+
+        setTimeout(() => {
+            console.log("Presentazione terminata");
+        }, 2000);
+
+        setTimeout(() => {
+            alert("La presentazione si è conclusa, ricaricare la pagina per visionarla nuovamente.");
+        }, 3000);
+    }
+}, 3000);
 
 //Logica nextBtn
 const prevBtn = document.querySelector(".prev");
 const nextBtn = document.querySelector(".next");
 
-nextBtn.addEventListener("click", function() {
+nextBtn.addEventListener("click", function () {
     prevBtn.classList.remove("hidden")
 
     if (activeItemIndex < (itemsArray.length - 1)) {
         itemsArray[activeItemIndex].classList.remove("active");
-        
+
         activeItemIndex++;
 
         itemsArray[activeItemIndex].classList.add("active");
@@ -71,9 +67,9 @@ nextBtn.addEventListener("click", function() {
 prevBtn.classList.add("hidden");
 
 prevBtn.addEventListener("click", function () {
-   nextBtn.classList.remove("hidden");
+    nextBtn.classList.remove("hidden");
 
-    if (activeItemIndex > 0){
+    if (activeItemIndex > 0) {
         itemsArray[activeItemIndex].classList.remove("active");
 
         activeItemIndex--;
